@@ -1,0 +1,18 @@
+helmDefaults:
+  createNamespace: true
+
+environments:
+  devops:
+    values:
+      - ./helm/values.yaml
+    secrets:
+      - ./helm/secrets.yaml
+
+releases:
+  - name: watson
+    namespace: watson
+    labels:
+      release: watson
+    chart: ./helm/watson
+    values:
+      - ./values-watson.yaml.gotmpl

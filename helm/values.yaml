@@ -1,0 +1,26 @@
+envVars:
+  DB_USER: easysend
+  PUBLIC_GOOGLE_CLIENT_ID: 1075910373301-uov6psrfa4mj1e2rsjgn50nt84q7qq72.apps.googleusercontent.com
+  PUBLIC_WATSON_BACKEND_URL: 127.0.0.1:8081
+  SLACK_CHANNEL: C04NDCNJGUQ
+
+backend:
+  image:
+    repository: easysendio/devops-watson
+    pullPolicy: Always
+    tag: backend-1.0
+
+ui:
+  image:
+    repository: easysendio/devops-watson
+    pullPolicy: Always
+    tag: watson-ui-1.0
+
+ingress:
+  enabled: true
+  className: ingress-private
+  labels:
+    ingress-class: ingress-private
+  annotations:
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP

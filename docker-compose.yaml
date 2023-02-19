@@ -1,0 +1,48 @@
+# provide DB_HOST, DB_USER and DB_PASSWORD with .env
+# .env is default for docker-compose
+# use: docker-compose up -d or docker-compose --env-file __FILE__ up -d if different file name
+
+version: '3.8'
+services:
+  watson-be:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
+    image: watson-be
+    ports:
+      - 8081:8081
+    environment:
+      DB_HOST: $DB_HOST
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      WATSON_AUTH_TOKEN: $WATSON_AUTH_TOKEN
+      SLACK_TOKEN: $SLACK_TOKEN
+      SLACK_CHANNEL: $SLACK_CHANNEL
+    volumes:
+      - ./backend:/app
+
+  watson-fe:
+    build:
+      context: ./watson-ui
+      dockerfile: Dockerfile
+      args:
+        - WATSON_AUTH_TOKEN=$WATSON_AUTH_TOKEN
+        - PUBLIC_GOOGLE_CLIENT_ID=$PUBLIC_GOOGLE_CLIENT_ID
+        - PUBLIC_WATSON_BACKEND_URL=$PUBLIC_WATSON_BACKEND_URL
+        - SUPER_SECRET_SESSION_KEY=$SUPER_SECRET_SESSION_KEY
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
+    image: watson-fe
+    ports:
+      - 3000:3000
+    environment:
+      WATSON_AUTH_TOKEN: $WATSON_AUTH_TOKEN
+      PUBLIC_GOOGLE_CLIENT_ID: $PUBLIC_GOOGLE_CLIENT_ID
+      PUBLIC_WATSON_BACKEND_URL: $PUBLIC_WATSON_BACKEND_URL
+      SUPER_SECRET_SESSION_KEY: $SUPER_SECRET_SESSION_KEY

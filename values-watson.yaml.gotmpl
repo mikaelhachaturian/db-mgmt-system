@@ -1,0 +1,45 @@
+envVars: {{- toYaml .Values.envVars | nindent 2 }}
+
+secretEnvVars: {{- toYaml .Values.secretEnvVars | nindent 2 }}
+
+dockerCreds:
+  name: docker-registry-credentials
+  encoded_json: {{ .Values.dockerCreds.encoded_json }}
+
+
+backend:
+  image:
+    repository: {{ .Values.backend.image.repository }}
+    pullPolicy: {{ .Values.backend.image.pullPolicy }}
+    tag: {{ .Values.backend.image.tag }}
+
+ui:
+  image:
+    repository: {{ .Values.ui.image.repository }}
+    pullPolicy: {{ .Values.ui.image.pullPolicy }}
+    tag: {{ .Values.ui.image.tag }}
+
+ingress:
+  enabled: {{ .Values.ingress.enabled }}
+  className: {{ .Values.ingress.className }}
+  {{- with .Values.ingress.labels }}
+  labels: {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.ingress.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+  hosts:
+    - host: watson.easysend.io
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+
+resources:
+  limits:
+    cpu: 1
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

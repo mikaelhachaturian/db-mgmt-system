@@ -1,20 +1,20 @@
 envVars:
-  DB_USER: easysend
-  PUBLIC_GOOGLE_CLIENT_ID: 1075910373301-uov6psrfa4mj1e2rsjgn50nt84q7qq72.apps.googleusercontent.com
-  PUBLIC_WATSON_BACKEND_URL: 127.0.0.1:8081
-  SLACK_CHANNEL: C04NDCNJGUQ
+  DB_USER: ""
+  PUBLIC_GOOGLE_CLIENT_ID: ""
+  PUBLIC_WATSON_BACKEND_URL: ""
+  SLACK_CHANNEL: ""
 
 backend:
   image:
-    repository: easysendio/devops-watson
-    pullPolicy: Always
-    tag: backend-1.0
+    repository: ""
+    pullPolicy: ""
+    tag: ""
 
 ui:
   image:
-    repository: easysendio/devops-watson
-    pullPolicy: Always
-    tag: watson-ui-1.0
+    repository:
+    pullPolicy: ""
+    tag: ""
 
 ingress:
   enabled: true
